@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<title>Leaderboard - Live | AGENT Spot The Fake</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Inter',system-ui,sans-serif;background:#F1F5F9;color:#0F172A;min-height:100vh}
+.container{max-width:430px;margin:0 auto;padding:14px 14px 28px;position:relative;z-index:1}
+.topbar{display:flex;justify-content:space-between;align-items:center;padding:6px 2px 12px}
+.logo{display:flex;align-items:center;gap:10px;font-weight:800;letter-spacing:-.3px}
+.logo-badge{width:38px;height:38px;background:#15803D;border-radius:10px;display:grid;place-items:center;flex-shrink:0}
+.logo-text{line-height:1}.logo-text small{display:block;font-size:9px;letter-spacing:2px;color:#15803D;font-weight:800}.logo-text span{font-size:16px;color:#0F172A}
+.pill{background:white;border:1px solid #E2E8F0;padding:7px 10px;border-radius:8px;font-size:12px;font-weight:700;color:#0F172A}
+.badge-live{display:inline-flex;align-items:center;gap:6px;background:rgba(34,197,94,.15);color:#15803D;padding:5px 10px;border-radius:6px;font-size:11px;font-weight:700;letter-spacing:.5px}
+.dot{width:7px;height:7px;background:#22C55E;border-radius:50%;display:inline-block}
+.hero{background:#0F172A;border:1px solid #0F172A;border-radius:14px;padding:20px 16px;text-align:center;color:white}
+.hero h1{font-size:26px;line-height:1.05;font-weight:800;letter-spacing:-.5px;margin:8px 0}
+.sub{color:#CBD5E1;font-size:13px;line-height:1.5}
+.tourney{margin-top:14px;background:#15803D;border-radius:12px;padding:14px;text-align:left;color:white}
+.tourney .t-prize{font-size:18px;font-weight:800}
+.tourney .till{display:inline-block;background:rgba(0,0,0,.18);padding:5px 10px;border-radius:6px;font-weight:700;margin-top:6px;font-size:12px}
+.row{display:flex;justify-content:space-between;align-items:center;background:white;border:1px solid #E2E8F0;padding:14px;border-radius:12px;margin-top:10px}
+.row.gold{border:2px solid #B45309;background:#FFFBEB}
+.row.silver{border:1.5px solid #94A3B8;background:#F8FAFC}
+.row.bronze{border:1.5px solid #CD7F32;background:#FFFBEB}
+.row-left{display:flex;align-items:center;gap:12px;min-width:0}
+.row-left b{font-size:15px}
+.row-left small{color:#64748B;font-size:11px}
+.rank{width:36px;height:36px;border-radius:50%;background:#0F172A;color:white;display:grid;place-items:center;font-weight:800;font-size:13px;flex-shrink:0}
+.rank.gold-bg{background:#B45309;color:white}
+.rank.silver-bg{background:#64748B;color:white}
+.rank.bronze-bg{background:#CD7F32;color:white}
+.prize-tag{font-size:11px;font-weight:800;color:#B45309}
+.btn{width:100%;border:0;border-radius:10px;padding:15px;font-size:14.5px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:10px;margin-top:10px;text-decoration:none}
+.btn-green{background:#15803D;color:white}
+.btn-gold{background:#B45309;color:white}
+.btn-dark{background:#334155;color:white}
+.btn-outline{background:white;color:#0F172A;border:1.5px solid #0F172A}
+.empty{text-align:center;margin-top:16px;color:#64748B;font-size:13px;background:white;border:1px solid #E2E8F0;border-radius:12px;padding:18px;line-height:1.6}
+.you-row{outline:2px solid #15803D}
+</style>
+</head>
+<body>
+<div class="container">
+<div class="topbar">
+<div class="logo"><div class="logo-badge"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M12 2L20 5.5V11C20 16.5 16.5 21 12 22C7.5 21 4 16.5 4 11V5.5L12 2Z" fill="white" opacity="0.2"/><path d="M12 2L20 5.5V11C20 16.5 16.5 21 12 22C7.5 21 4 16.5 4 11V5.5L12 2Z" stroke="white" stroke-width="1.8"/><circle cx="10.5" cy="10.5" r="3.2" stroke="white" stroke-width="2"/><path d="M13 13L17 17" stroke="white" stroke-width="2" stroke-linecap="round"/></svg></div><div class="logo-text"><small>AGENT | KENYA</small><span>LEADERBOARD</span></div></div>
+<span class="badge-live"><span class="dot"></span> LIVE</span>
+</div>
+<div class="hero">
+<span class="badge-live"><span class="dot"></span> KENYA TOP AGENTS | LIVE</span>
+<h1>WHO IS WINNING?</h1>
+<p class="sub">Real-time - Tournament scores only.<br>Free Practice does NOT count.</p>
+<div class="tourney"><div style="font-size:12px;font-weight:700">TODAY'S PRIZES</div><div class="t-prize">1st KSh 250 | 2nd KSh 150 | 3rd KSh 100</div><span class="till" id="pool">Loading...</span></div>
+</div>
+<div id="list"><p class="empty">Loading leaderboard...<br>Please wait 2 seconds.</p></div>
+<button class="btn btn-gold" onclick="window.location.href='index.html'">PLAY TOURNAMENT - KSh 20</button>
+<button class="btn btn-outline" onclick="window.location.href='index.html'">Back To Home</button>
+<p style="color:#64748B;font-size:12px;text-align:center;margin-top:10px" id="lastUpdate"></p>
+<p style="color:#64748B;font-size:11.5px;text-align:center;margin-top:4px">KENYA • AGENT Spot The Fake • Made in KENYA</p>
+</div>
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
+const firebaseConfig = { apiKey: "AIzaSyCCE1lmG1u0mJk_iUkaG0vr_5RqoswBSNs", authDomain: "agent-spot-fake.firebaseapp.com", databaseURL: "https://agent-spot-fake-default-rtdb.firebaseio.com", projectId: "agent-spot-fake", storageBucket: "agent-spot-fake.firebasestorage.app", messagingSenderId: "422926632685", appId: "1:422926632685:web:588449ea7fa6fdada76ee4", measurementId: "G-2LPC3732XZ" };
+const app = initializeApp(firebaseConfig);
+const db = getDatabase(app);
+// --- CONNECTED TO index.html - INSTANT PLAY ---
+// index.html saves: localStorage agent_my_name + agent_my_code (= phone)
+// and pushes to Firebase: { name, score, ticket (= phone), date, plays }
+const myName = (localStorage.getItem('agent_my_name') || "").trim().toLowerCase();
+const myCode = (localStorage.getItem('agent_my_code') || "").trim().toUpperCase();
+function esc(s){ return String(s||"").replace(/</g,"&lt;").replace(/>/g,"&gt;"); }
+// Mask phone for privacy: 0712345678 -> 0712***678
+function maskPhone(p){
+  let s = String(p||"");
+  if(s.length < 7) return "***";
+  return s.slice(0,4) + "***" + s.slice(-3);
+}
+onValue(ref(db,'leaderboard'), (snap)=>{
+  let list = snap.exists() ? Object.values(snap.val()) : [];
+  list = list.filter(p => p && p.name && typeof p.score === 'number');
+  list.sort((a,b)=>b.score-a.score);
+  let html="";
+  list.slice(0,20).forEach((p,i)=>{
+    let cls = "row"; if(i==0) cls="row gold"; else if(i==1) cls="row silver"; else if(i==2) cls="row bronze";
+    let rankCls = "rank"; if(i==0) rankCls="rank gold-bg"; else if(i==1) rankCls="rank silver-bg"; else if(i==2) rankCls="rank bronze-bg";
+    let rankText = String(i+1).padStart(2,'0');
+    let prize = i==0?"Wins KSh 250":i==1?"Wins KSh 150":i==2?"Wins KSh 100":"";
+    // YOU = same name AND same phone (ticket) as in index.html
+    let isMe = myName && String(p.name||"").trim().toLowerCase() === myName && (!myCode || String(p.ticket||"").toUpperCase() === myCode);
+    if(!myCode && myName && String(p.name||"").trim().toLowerCase() === myName) isMe = true;
+    if(isMe) cls += " you-row";
+    let meta = [];
+    if(p.date) meta.push(esc(p.date));
+    if(p.ticket) meta.push("Phone: " + esc(maskPhone(p.ticket)));
+    let extra = (p.correct != null) ? ` • ${p.correct} correct` : "";
+    html+=`<div class="${cls}"><div class="row-left"><div class="${rankCls}">${rankText}</div><span><b>${esc(p.name)}${isMe ? " • YOU" : ""}</b><br><small>${meta.join(" • ")}${extra}</small></span></div><b style="text-align:right;flex-shrink:0">KSh ${Number(p.score||0).toLocaleString()}<br><span class="prize-tag">${prize}</span></b></div>`;
+  });
+  if(list.length===0) html="<p class='empty'>No scores yet.<br>Be the first! Pay KSh 20 to Till 3056305 and play Tournament.</p>";
+  document.getElementById('list').innerHTML=html;
+  document.getElementById('pool').innerText = list.length+" players • KSh "+(list.length*20)+" collected";
+  document.getElementById('lastUpdate').innerText = "Last update: "+new Date().toLocaleTimeString()+" - Live from Firebase";
+}, (err)=>{
+  document.getElementById('list').innerHTML="<p class='empty'>Could not load leaderboard. Check internet and tap Refresh.</p>";
+});
+</script>
+</body>
+</html>

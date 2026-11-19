@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<title>AGENT: Spot The Fake - Win Real Money</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Inter',system-ui,sans-serif;background:#F1F5F9;color:#0F172A;min-height:100vh}
+.container{max-width:430px;margin:0 auto;padding:14px 14px 28px;position:relative;z-index:1}
+.topbar{display:flex;justify-content:space-between;align-items:center;padding:6px 2px 12px}
+.logo{display:flex;align-items:center;gap:10px;font-weight:800;letter-spacing:-.3px}
+.logo-badge{width:38px;height:38px;background:#15803D;border-radius:10px;display:grid;place-items:center;flex-shrink:0}
+.logo-text{line-height:1}.logo-text small{display:block;font-size:9px;letter-spacing:2px;color:#15803D;font-weight:800}.logo-text span{font-size:16px;color:#0F172A}
+.pill{background:white;border:1px solid #E2E8F0;padding:7px 10px;border-radius:8px;font-size:12px;font-weight:700;color:#0F172A}
+.hero{background:#0F172A;border:1px solid #0F172A;border-radius:14px;padding:20px 16px;text-align:center;color:white}
+.hero h1{font-size:36px;line-height:1.05;font-weight:800;letter-spacing:-.5px;margin:10px 0}.hero h1 span{color:#22C55E;display:block}
+.sub{color:#CBD5E1;font-size:13.5px;line-height:1.5}
+.tourney{margin-top:14px;background:#15803D;border-radius:12px;padding:14px;text-align:left;color:white}.tourney .t-prize{font-size:20px;font-weight:800}.tourney .till{display:inline-block;background:rgba(0,0,0,.18);padding:5px 10px;border-radius:6px;font-weight:700;margin-top:6px;font-size:12px}
+.stats{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin:12px 0}.stat{background:white;border:1px solid #E2E8F0;border-radius:12px;padding:12px;text-align:center}.stat small{color:#64748B;font-size:11px;font-weight:700}.stat b{display:block;font-size:16px;margin-top:3px;color:#0F172A}
+.btn{width:100%;border:0;border-radius:10px;padding:15px;font-size:14.5px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:10px;margin-top:10px}.btn:active{transform:scale(.98)}
+.btn-green{background:#15803D;color:white}.btn-gold{background:#B45309;color:white}.btn-dark{background:#334155;color:white}.btn-outline{background:white;color:#0F172A;border:1.5px solid #0F172A}.btn-small{padding:12px;font-size:14px}
+input{width:100%;padding:13px;border-radius:8px;border:1px solid #CBD5E1;font-size:15px;margin:8px 0;background:#F8FAFC}label{font-size:11px;font-weight:700;color:#334155;letter-spacing:.4px;text-transform:uppercase}
+.payCard{background:white;color:#0F172A;border-radius:14px;padding:18px;text-align:left;border:1px solid #E2E8F0}.tillBig{background:#F0FDF4;border:1.5px solid #15803D;border-radius:12px;padding:12px;text-align:center;margin:12px 0}.tillBig b{font-size:20px;color:#15803D}
+.game-top{display:flex;gap:8px;margin:10px 0}.game-top div{flex:1;background:white;border:1px solid #E2E8F0;border-radius:12px;padding:10px;text-align:center;color:#0F172A}
+.progress{height:8px;background:#E2E8F0;border-radius:999px;overflow:hidden;margin:8px 0}.progress i{display:block;height:100%;background:#15803D}
+.timerBox{background:white;border:1px solid #E2E8F0;border-radius:12px;padding:12px;display:flex;justify-content:space-between;align-items:center;color:#0F172A}.timerBox b{font-size:26px;color:#B45309}
+.how{background:white;border:1px solid #E2E8F0;border-radius:14px;padding:14px;margin-top:14px;color:#0F172A}.footer{text-align:center;color:#64748B;font-size:11.5px;margin-top:16px}
+.statusBox{padding:14px;border-radius:10px;margin-top:10px;text-align:center;font-weight:700}.waiting{background:#FFFBEB;border:1.5px solid #D97706;color:#92400E}.approvedBox{background:#F0FDF4;border:1.5px solid #15803D;color:#14532D}.rejectedBox{background:#FEF2F2;border:1.5px solid #DC2626;color:#991B1B}
+.qCard{background:white;color:#0F172A;border-radius:14px;padding:18px;text-align:left;border:1px solid #E2E8F0}.qNum{background:#0F172A;color:white;display:inline-block;padding:5px 10px;border-radius:6px;font-size:12px;font-weight:700}.qText{font-size:17px;font-weight:700;line-height:1.4;margin:12px 0}
+.qMsg{background:#FFFBEB;border:1.5px dashed #D97706;border-radius:10px;padding:12px;font-family:monospace;font-size:13px;line-height:1.6;word-break:break-word;margin:10px 0;white-space:pre-wrap}
+.opt{width:100%;text-align:left;background:#F8FAFC;border:1.5px solid #E2E8F0;border-radius:10px;padding:13px;margin-top:10px;font-size:14.5px;font-weight:600;cursor:pointer;display:flex;gap:10px;align-items:flex-start;color:#0F172A}.opt:active{transform:scale(.98)}.opt b{width:28px;height:28px;background:#0F172A;color:white;border-radius:50%;display:grid;place-items:center;flex-shrink:0;font-size:13px;margin-top:1px}.opt.correct{background:#F0FDF4;border-color:#15803D}.opt.wrong{background:#FEF2F2;border-color:#DC2626}.opt:disabled{opacity:.9}
+.badge-live{display:inline-flex;align-items:center;gap:6px;background:rgba(34,197,94,.15);color:#22C55E;padding:5px 10px;border-radius:6px;font-size:11px;font-weight:700;letter-spacing:.5px}.dot{width:7px;height:7px;background:#22C55E;border-radius:50%;display:inline-block}
+.spinner{width:18px;height:18px;border:3px solid #FDE68A;border-top:3px solid #92400E;border-radius:50%;display:inline-block;animation:spin 1s linear infinite;vertical-align:middle}@keyframes spin{to{transform:rotate(360deg)}}
+.hard-tag{display:inline-block;background:#FFFBEB;color:#92400E;border:1px solid #D97706;padding:3px 8px;border-radius:6px;font-size:11px;font-weight:700;margin-left:6px}
+.pay-steps{background:#F8FAFC;border:1px solid #E2E8F0;border-radius:10px;padding:12px;font-size:13px;line-height:1.7;color:#334155;margin:10px 0}
+</style>
+</head>
+<body>
+<div class="container">
+<div id="menu">
+<div class="topbar"><div class="logo"><div class="logo-badge"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M12 2L20 5.5V11C20 16.5 16.5 21 12 22C7.5 21 4 16.5 4 11V5.5L12 2Z" fill="white" opacity="0.2"/><path d="M12 2L20 5.5V11C20 16.5 16.5 21 12 22C7.5 21 4 16.5 4 11V5.5L12 2Z" stroke="white" stroke-width="1.8"/><circle cx="10.5" cy="10.5" r="3.2" stroke="white" stroke-width="2"/><path d="M13 13L17 17" stroke="white" stroke-width="2" stroke-linecap="round"/></svg></div><div class="logo-text"><small>AGENT | KENYA</small><span>SPOT THE FAKE</span></div></div><div class="pill">Lives <b id="livesDisplay">3</b> | Best <b id="bestScore">KSh 0</b></div></div>
+<div class="hero"><span class="badge-live"><span class="dot"></span> VERY EASY | 8 SECONDS / QUIZ | LET'S ROLL</span><h1>SPOT THE FAKE<span>WIN REAL MONEY</span></h1><p class="sub">Short questions. Real cash.<br>Answer all questions correctly.<br>You must actually know it. 8 seconds.</p><div class="tourney"><div style="font-size:12px;font-weight:700">TODAY'S TOURNAMENT | 8PM | VERY EASY</div><div class="t-prize">Win KSh 250 | 150 | 100</div><div style="font-size:12.5px">Entry: KSh 20 | 20 Questions | 8 seconds each | No Repeats | Enter Tournament</div><span class="till">GOOD LUCK</span></div><div class="stats"><div class="stat"><small>LIVES</small><b id="livesDisplay2">3</b></div><div class="stat"><small>BEST</small><b id="bestScore2">KSh 0</b></div><div class="stat"><small>PRIZE</small><b>KSh 250</b></div></div></div>
+<button class="btn btn-green" onclick="playFree()">PLAY FREE | Practice | 10 Questions</button><button class="btn btn-gold" onclick="showTournament()">ENTER TOURNAMENT | KSh 20 | 20 Questions</button><button class="btn btn-outline" onclick="window.location.href='leaderboard.html'">VIEW LEADERBOARD | LIVE</button><button class="btn btn-dark btn-small" onclick="howTo()">How To Play</button>
+<div class="how"><h3 style="font-size:14px;margin-bottom:8px">Very Easy Mode:</h3><p style="font-size:13px;color:#475569;line-height:1.6">1. Answer all Quizzes - no guessing<br>2. Trick is in 1 detail.<br>3. 8 seconds PER Quiz.<br>4. Prizes: 1st KSh 250, 2nd KSh 150, 3rd KSh 100</p></div><p class="footer"><b>Made in KENYA</b> | Let's Earn Together | 1st 250 | 2nd 150 | 3rd 100</p></div>
+<div id="tournamentPay" style="display:none"><div class="topbar"><div class="logo"><div class="logo-badge"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><circle cx="10.5" cy="10.5" r="3.2" stroke="white" stroke-width="2"/><path d="M13 13L17 17" stroke="white" stroke-width="2" stroke-linecap="round"/></svg></div><div class="logo-text"><small>AGENT</small><span>TOURNAMENT</span></div></div><button onclick="showMenu()" style="background:#334155;color:white;border:0;padding:8px 12px;border-radius:8px;font-weight:700">Close</button></div><div class="payCard"><h2 style="text-align:center;color:#15803D">Pay with M-PESA</h2><p style="text-align:center;font-size:14px;color:#334155;margin:6px 0 10px">Fast Till payment</p>
+<label>Your Real Name</label><input id="playerName" placeholder="e.g. John James" style="text-transform:none">
+<label>Phone Number</label><input id="payPhone" placeholder="0712345678" type="tel">
+<label>Amount</label><input id="payAmount" value="20" readonly>
+<button class="btn btn-green" id="payNowBtn" onclick="payWithSTK()">Pay Now</button><p id="payError" style="color:#DC2626;font-weight:700;font-size:13px;margin-top:8px"></p><div id="statusArea"></div></div></div>
+<div id="game" style="display:none"><div class="topbar"><div class="logo"><div class="logo-badge"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><circle cx="10.5" cy="10.5" r="3.2" stroke="white" stroke-width="2"/><path d="M13 13L17 17" stroke="white" stroke-width="2" stroke-linecap="round"/></svg></div><span id="levelTitle">Game</span></div><div class="pill"><span id="cust">1 / 20</span></div></div><div class="game-top"><div><small>FLOAT</small><b id="float" style="color:#15803D"></b></div><div><small>TRUST</small><b id="trust"></b></div><div><small>COMBO</small><b id="combo" style="color:#B45309">0</b></div></div><div class="progress"><i id="progBar" style="width:100%"></i></div><div class="timerBox"><div><b id="timer">8s</b></div><div style="text-align:right"><span id="pressure" style="color:#DC2626;font-weight:800"></span><br><span style="font-size:12px;color:#64748B">8 seconds</span></div></div><div class="qCard" style="margin-top:12px"><span class="qNum" id="qNum">QUESTION 1 / 20</span><span class="hard-tag" id="hardTag">VERY HARD</span><p class="qText" id="qText"></p><div class="qMsg" id="qMsg" style="display:none"></div><div id="options"></div></div><p id="result" style="font-weight:700;text-align:center;margin-top:10px"></p><button class="btn btn-dark" onclick="showMenu()">Menu</button></div>
+<div id="gameover" style="display:none"><div style="background:#0F172A;border-radius:14px;padding:22px;text-align:center;color:white"><div style="font-size:13px;letter-spacing:1.5px;color:#22C55E;font-weight:800" id="overEmoji">FINISHED</div><h1 id="overTitle" style="margin-top:8px"></h1><p id="overText" style="color:#CBD5E1;font-size:13px;margin:8px 0"></p><h2 id="finalScore" style="color:#22C55E"></h2><div id="winBox" style="display:none;background:#15803D;padding:12px;border-radius:10px;margin-top:12px"><b>Top Score! Screenshot this!</b></div><button class="btn btn-green" onclick="shareScore()">Share Score</button><button class="btn btn-gold" onclick="window.location.href='leaderboard.html'">SEE LEADERBOARD | LIVE</button><button class="btn btn-dark" onclick="showMenu()">Menu</button></div></div></div>
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import { getDatabase, ref, push, set, onValue, update, get, remove } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
+const firebaseConfig = { apiKey: "AIzaSyCCE1lmG1u0mJk_iUkaG0vr_5RqoswBSNs", authDomain: "agent-spot-fake.firebaseapp.com", databaseURL: "https://agent-spot-fake-default-rtdb.firebaseio.com", projectId: "agent-spot-fake", storageBucket: "agent-spot-fake.firebasestorage.app", messagingSenderId: "422926632685", appId: "1:422926632685:web:588449ea7fa6fdada76ee4", measurementId: "G-2LPC3732XZ" };
+const app = initializeApp(firebaseConfig); const db = getDatabase(app); window.db=db; window.fb={ref,push,set,onValue,update,get,remove}; window.firebaseReady=true;
+</script>
+<script>
+const SERVER_URL = "http://localhost:3000";
+// LIVE: const SERVER_URL = "https://YOUR-RENDER-URL.onrender.com";
+let float=10000,trust=100,index=0,timeLeft=8,timerInt,level=1,combo=0,isTournament=false,playerName="Player",currentTicket="",currentQuestions=[],correctCount=0,answered=false;
+let lives=parseInt(localStorage.getItem('agent_lives')||'3'); let today=new Date().toDateString(); if(localStorage.getItem('agent_day')!==today){lives=3;localStorage.setItem('agent_lives',3);localStorage.setItem('agent_day',today);}
+function syncStats(){document.getElementById('livesDisplay').innerText=lives;document.getElementById('livesDisplay2').innerText=lives;let b=parseInt(localStorage.getItem('agent_best')||'0');document.getElementById('bestScore').innerText="KSh "+b.toLocaleString();document.getElementById('bestScore2').innerText="KSh "+b.toLocaleString();} syncStats();
+function secureRnd(n){ const a=new Uint32Array(1); crypto.getRandomValues(a); return a[0]%n; }
+function securePick(arr){ return arr[secureRnd(arr.length)]; }
+function randCode(){const c="ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";let s=securePick(["A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"]);for(let i=0;i<9;i++)s+=c[secureRnd(c.length)];return s;}
+function randPhone(){return "2547"+Math.floor(10000000+Math.random()*89999999);}
+function randAmt(){return securePick([450,500,650,750,800,950,1000,1150,1200,1350,1500,1750,1800,2000,2250,2500,2750,3000,3250,3500,4000,4500,5000,5500,6000,7500,8000,9500,10000,12000,15000,18000,20000]);}
+const NAMES=["Mama Otis","Brian Kibet","Neema Moraa","Teacher Wanjiru","Pastor Ombati","Student Kevin","DJ Flex","Mzee Mogaka","Sarah Kerubo","Josephat Ondieki","Auntie Gesare","Driver Bosire","Nurse Kwamboka","Farmer Nyamweya","Trader Oseko","Mama Mboga","Boda Dennis","Shopkeeper Moraa","Student Faith","Pastor Nyabuto","Mama Njoroge","Teacher Moraa","Boda Evans","Nurse Achieng","Trader Kamau","Student Baraka","Mzee Onyango","Mama Kemunto"];
+const SHOPS=["Kisii Mini Mart","Nyamweya Shop","Oseko Store","Moraa Boutique","Kibet Cyber","Kerubo Salon","Ondieki Hardware","Mogaka Agrovet","Gesare Kiosk","Bosire Butchery"];
+function shuffleCrypto(arr){let x=[...arr];for(let i=x.length-1;i>0;i--){let j=secureRnd(i+1);[x[i],x[j]]=[x[j],x[i]];}return x;}
+function generateOneQuestion(forcedType){
+  let name=securePick(NAMES), shop=securePick(SHOPS), amt=randAmt(), code=randCode(), phone=randPhone(), phone2=randPhone();
+  let before = amt + securePick([200,350,500,750,1000,1500,2000,2750,3000,4500,5000,8000,12000]);
+  let afterCorrect = before - amt; let afterFake = before + secureRnd(5000)+1000;
+  let type = forcedType; let q=null;
+  if(type===0){ q={q:`${name} sent KSh ${amt.toLocaleString()}. Balance before KSh ${before.toLocaleString()}. SMS says balance KSh ${afterCorrect.toLocaleString()}. Real or fake?`, msg:`${code} Confirmed. KSh ${amt.toLocaleString()} to KEVIN AGENT. Bal KSh ${afterCorrect.toLocaleString()}. Cost 0.`, correct:`REAL - Maths is correct`, wrongs:[`FAKE - Balance is wrong`,`FAKE - Amount is wrong`,`FAKE - Cost is wrong`], explain:`${before} - ${amt} = ${afterCorrect}. Correct.`}; }
+  else if(type===1){ q={q:`${name} sent KSh ${amt.toLocaleString()}. Balance before KSh ${before.toLocaleString()}. SMS says balance KSh ${afterFake.toLocaleString()}. Real or fake?`, msg:`${code} Confirmed. KSh ${amt.toLocaleString()} to KEVIN AGENT. Bal KSh ${afterFake.toLocaleString()}. Cost 0.`, correct:`FAKE - Balance is wrong`, wrongs:[`REAL - Maths is correct`,`FAKE - Amount is wrong`,`FAKE - Cost is wrong`], explain:`Should be ${afterCorrect}, not ${afterFake}.`}; }
+  else if(type===2){ q={q:`SMS says money sent to KEVlN AGENT. Look at the name. Your Till is KEVIN AGENT.`, msg:`${code} - KSh ${amt.toLocaleString()} to KEVlN AGENT`, correct:`FAKE - L not I in name`, wrongs:[`REAL - Name is correct`,`FAKE - Amount is wrong`,`FAKE - Code is wrong`], explain:`KEVlN uses small L, not I.`}; }
+  else if(type===3){ q={q:`SMS says money sent to KEVIN AGENTT. Your Till is KEVIN AGENT.`, msg:`${code} - KSh ${amt.toLocaleString()} to KEVIN AGENTT`, correct:`FAKE - Extra T in name`, wrongs:[`REAL - Name is correct`,`FAKE - Amount is wrong`,`FAKE - Code is wrong`], explain:`Name must match exactly.`}; }
+  else if(type===4){ q={q:`SMS says money sent to KEVIN AGENT. All details match. Till shows no money.`, msg:`${code} - KSh ${amt.toLocaleString()} - Looks perfect`, correct:`FAKE - Till has no money`, wrongs:[`REAL - SMS is perfect`,`REAL - Till is delayed`,`FAKE - Amount is wrong`], explain:`Till is truth, not SMS.`}; }
+  else if(type===5){ q={q:`Two customers show SAME code ${code} for KSh ${amt.toLocaleString()} each.`, msg:`Cust A: ${code} - KSh ${amt.toLocaleString()}\nCust B: ${code} - KSh ${amt.toLocaleString()}`, correct:`FAKE - Code used twice`, wrongs:[`REAL - Both paid twice`,`REAL - Code can repeat`,`FAKE - Amount is wrong`], explain:`One code = one payment.`}; }
+  else if(type===6){ q={q:`Customer shows code AB12345678 for KSh ${amt.toLocaleString()}.`, msg:`Code: AB12345678`, correct:`FAKE - Code is too simple`, wrongs:[`REAL - Code is correct`,`FAKE - Amount is wrong`,`REAL - Codes can be simple`], explain:`Real codes are random, not 12345678.`}; }
+  else if(type===7){ q={q:`SMS sender is ${phone2}. It starts with 2546. Amount KSh ${amt.toLocaleString()}.`, msg:`From ${phone2} - KSh ${amt.toLocaleString()}`, correct:`FAKE - 2546 not Safaricom`, wrongs:[`REAL - 2546 is Safaricom`,`FAKE - Amount is wrong`,`REAL - Sender does not matter`], explain:`Safaricom is 2547.`}; }
+  else if(type===8){ q={q:`SMS sender is ${phone}. It starts with 2547. Amount KSh ${amt.toLocaleString()}. Code ${code}.`, msg:`From ${phone} - KSh ${amt.toLocaleString()} - ${code}`, correct:`REAL - Sender looks correct`, wrongs:[`FAKE - Sender is wrong`,`FAKE - Amount is wrong`,`FAKE - Code is wrong`], explain:`2547 is correct.`}; }
+  else if(type===9){ q={q:`SMS says Cost KSh 23 for receiving KSh ${amt.toLocaleString()}.`, msg:`${code} - KSh ${amt.toLocaleString()} - Cost 23`, correct:`FAKE - Receiving is KSh 0`, wrongs:[`REAL - Cost is correct`,`FAKE - Amount is wrong`,`REAL - Cost increased`], explain:`Receiving costs 0.`}; }
+  else if(type===10){ q={q:`SMS says Cost KSh 0 for receiving KSh ${amt.toLocaleString()}.`, msg:`${code} - KSh ${amt.toLocaleString()} - Cost 0`, correct:`REAL - Cost is correct`, wrongs:[`FAKE - Cost is wrong`,`FAKE - Amount is wrong`,`REAL - Cost should be 23`], explain:`Receiving costs 0.`}; }
+  else if(type===11){ q={q:`SMS date is 13/11/26. Today is 14/11/26. Amount KSh ${amt.toLocaleString()}.`, msg:`${code} - KSh ${amt.toLocaleString()} - 13/11/26`, correct:`FAKE - Old SMS reused`, wrongs:[`REAL - Network delayed`,`REAL - Date does not matter`,`FAKE - Amount is wrong`], explain:`Old date = reused screenshot.`}; }
+  else if(type===12){ q={q:`SMS date is 14/11/26. Today is 14/11/26. Amount KSh ${amt.toLocaleString()}.`, msg:`${code} - KSh ${amt.toLocaleString()} - 14/11/26`, correct:`REAL - Date is correct`, wrongs:[`FAKE - Date is wrong`,`FAKE - Amount is wrong`,`REAL - Date is old`], explain:`Date matches today.`}; }
+  else if(type===13){ q={q:`SMS starts: "Confrimed. KSh ${amt.toLocaleString()} sent".`, msg:`Confrimed. KSh ${amt.toLocaleString()}`, correct:`FAKE - Spelling is wrong`, wrongs:[`REAL - Spelling is correct`,`FAKE - Amount is wrong`,`REAL - Typos are normal`], explain:`Real word is Confirmed.`}; }
+  else if(type===14){ q={q:`SMS starts: "Confirmed. KSh ${amt.toLocaleString()} sent".`, msg:`Confirmed. KSh ${amt.toLocaleString()}`, correct:`REAL - Spelling is correct`, wrongs:[`FAKE - Spelling is wrong`,`FAKE - Amount is wrong`,`REAL - Spelling is wrong`], explain:`Confirmed is correct.`}; }
+  else if(type===15){ q={q:`SMS sender is MPESA, not a phone number. Amount KSh ${amt.toLocaleString()}.`, msg:`From MPESA - KSh ${amt.toLocaleString()}`, correct:`FAKE - P2P is from number`, wrongs:[`REAL - MPESA is correct`,`FAKE - Amount is wrong`,`REAL - Both are same`], explain:`P2P comes from 2547 number.`}; }
+  else if(type===16){ q={q:`${name} offers you KSh 500 to pay fast for KSh ${amt.toLocaleString()} goods.`, msg:`No SMS yet - "Pay fast"`, correct:`FAKE - Bribe means scam`, wrongs:[`REAL - He is kind`,`REAL - Tip is normal`,`FAKE - Amount is wrong`], explain:`Bribe = 100% fake.`}; }
+  else if(type===17){ q={q:`${name} is shouting, pressuring you to pay fast for KSh ${amt.toLocaleString()}.`, msg:`"Pay now, I am late!"`, correct:`SLOW DOWN - Pressure is trick`, wrongs:[`PAY FAST - He is late`,`PAY FAST - Avoid trouble`,`FAKE - Amount is wrong`], explain:`Scammers use pressure.`}; }
+  else if(type===18){ q={q:`SMS shows KSh ${amt.toLocaleString()} sent, but your float did not increase.`, msg:`SMS: KSh ${amt.toLocaleString()} sent`, correct:`FAKE - No float increase`, wrongs:[`REAL - Network is slow`,`REAL - Float will come`,`FAKE - Amount is wrong`], explain:`Real money moves float.`}; }
+  else if(type===19){ q={q:`${name} shows a PHOTO of SMS, not real SMS in Messages. KSh ${amt.toLocaleString()}.`, msg:`Photo of SMS - KSh ${amt.toLocaleString()}`, correct:`FAKE - Photo can be edited`, wrongs:[`REAL - Photo is proof`,`REAL - Photo is same`,`FAKE - Amount is wrong`], explain:`Photo = edited.`}; }
+  else if(type===20){ q={q:`${name} shows WhatsApp forward of SMS for KSh ${amt.toLocaleString()}.`, msg:`WhatsApp forward - KSh ${amt.toLocaleString()}`, correct:`FAKE - Forward can be edited`, wrongs:[`REAL - Forward is proof`,`REAL - Forward is same`,`FAKE - Amount is wrong`], explain:`Forward is not proof.`}; }
+  else if(type===21){ q={q:`Code in SMS is RK123456 - only 8 characters. KSh ${amt.toLocaleString()}.`, msg:`Code: RK123456`, correct:`FAKE - Code must be 10`, wrongs:[`REAL - Code is correct`,`FAKE - Amount is wrong`,`REAL - Length does not matter`], explain:`Code is always 10 chars.`}; }
+  else if(type===22){ q={q:`Code in SMS is ${code} - 10 characters. KSh ${amt.toLocaleString()}.`, msg:`Code: ${code}`, correct:`REAL - Code length is correct`, wrongs:[`FAKE - Code is wrong`,`FAKE - Amount is wrong`,`REAL - Code is too long`], explain:`10 chars is correct.`}; }
+  else if(type===23){ q={q:`Code in SMS is ab12345678 - has small letters. KSh ${amt.toLocaleString()}.`, msg:`Code: ab12345678`, correct:`FAKE - Code must be CAPITAL letters`, wrongs:[`REAL - Code is correct`,`FAKE - Amount is wrong`,`REAL - Case does not matter`], explain:`Real codes are ALL CAPITAL.`}; }
+  else if(type===24){ q={q:`Amount in SMS is KSh ${amt.toLocaleString()}.00 - with .00.`, msg:`KSh ${amt.toLocaleString()}.00`, correct:`FAKE - Safaricom has no .00`, wrongs:[`REAL - Format is correct`,`FAKE - Amount is wrong`,`REAL - .00 is new format`], explain:`Safaricom: no .00.`}; }
+  else if(type===25){ q={q:`Balance in SMS is Ksh ${afterCorrect.toLocaleString()} - small sh.`, msg:`Balance: Ksh ${afterCorrect.toLocaleString()}`, correct:`FAKE - Should be KSh`, wrongs:[`REAL - Ksh is correct`,`FAKE - Amount is wrong`,`REAL - Case does not matter`], explain:`Safaricom writes KSh.`}; }
+  else if(type===26){ q={q:`SMS starts "Dear customer, you received KSh ${amt.toLocaleString()}".`, msg:`Dear customer... KSh ${amt.toLocaleString()}`, correct:`FAKE - Real starts with code`, wrongs:[`REAL - Start is correct`,`FAKE - Amount is wrong`,`REAL - Both starts are same`], explain:`Real starts with code.`}; }
+  else if(type===27){ q={q:`SMS says Till 3056306, not 3056305. Amount KSh ${amt.toLocaleString()}.`, msg:`Till 3056306 - KSh ${amt.toLocaleString()}`, correct:`FAKE - Wrong Till number`, wrongs:[`REAL - Till is correct`,`FAKE - Amount is wrong`,`REAL - Till does not matter`], explain:`One digit wrong = wrong Till.`}; }
+  else if(type===28){ q={q:`SMS says Till 3056305. Amount KSh ${amt.toLocaleString()}. Code ${code}.`, msg:`Till 3056305 - KSh ${amt.toLocaleString()}`, correct:`REAL - Till is correct`, wrongs:[`FAKE - Till is wrong`,`FAKE - Amount is wrong`,`REAL - Till is wrong`], explain:`Till matches.`}; }
+  else if(type===29){ q={q:`${name} says "Send KSh ${amt.toLocaleString()} back to ${phone2}, not my number".`, msg:`Refund to different number`, correct:`REFUSE - Reversal scam`, wrongs:[`SEND - He asked nicely`,`SEND - Safaricom said so`,`FAKE - Amount is wrong`], explain:`Never send to different number.`}; }
+  else if(type===30){ q={q:`Call from ${phone}: "Till blocked, send KSh ${amt.toLocaleString()} to unblock".`, msg:`Caller: ${phone} - Pay to unblock`, correct:`FAKE - Safaricom never asks`, wrongs:[`REAL - Pay to unblock`,`SEND - He knows Till`,`FAKE - Amount is wrong`], explain:`Safaricom uses 100, never asks money.`}; }
+  else if(type===31){ q={q:`Man in Safaricom jacket asks for your PIN. Till 3056305.`, msg:`"Show me PIN for audit"`, correct:`REFUSE - Never share PIN`, wrongs:[`GIVE - He has jacket`,`GIVE - He has ID`,`FAKE - Amount is wrong`], explain:`PIN is yours only.`}; }
+  else if(type===32){ q={q:`SMS time is in future. Now is morning, SMS says evening. KSh ${amt.toLocaleString()}.`, msg:`SMS time: Future`, correct:`FAKE - Future SMS impossible`, wrongs:[`REAL - Phone time wrong`,`FAKE - Amount is wrong`,`REAL - Time does not matter`], explain:`Future = edited.`}; }
+  else if(type===33){ q={q:`SMS has no date, no time, no sender. KSh ${amt.toLocaleString()}.`, msg:`No date, no time, no sender`, correct:`FAKE - SMS is cropped`, wrongs:[`REAL - SMS is complete`,`FAKE - Amount is wrong`,`REAL - Date not needed`], explain:`Real SMS is complete.`}; }
+  else if(type===34){ q={q:`SMS font is big bold, different colour. KSh ${amt.toLocaleString()}.`, msg:`Font: Big bold, different`, correct:`FAKE - Fake SMS app font`, wrongs:[`REAL - Theme changed font`,`FAKE - Amount is wrong`,`REAL - Font does not matter`], explain:`Real SMS uses Messages font.`}; }
+  else if(type===35){ q={q:`${name} has no SMS, no code. Says "Trust me, pay me KSh ${amt.toLocaleString()}".`, msg:`No proof - "Trust me"`, correct:`REFUSE - No money, no goods`, wrongs:[`PAY - He is regular`,`PAY - He is neighbour`,`FAKE - Amount is wrong`], explain:`No proof = no payment.`}; }
+  else if(type===36){ q={q:`${name} offers ID as collateral for KSh ${amt.toLocaleString()} goods. Till shows no money.`, msg:`Till: No money - ID offered`, correct:`REFUSE - ID is not money`, wrongs:[`PAY - He left ID`,`PAY - He is neighbour`,`FAKE - Amount is wrong`], explain:`ID cannot be spent.`}; }
+  else if(type===37){ q={q:`Float went up KSh ${amt.toLocaleString()}, then down same amount 2 mins later.`, msg:`Float: +${amt.toLocaleString()} then -${amt.toLocaleString()}`, correct:`REVERSAL - Money is gone`, wrongs:[`REAL - Money is still there`,`FAKE - Amount is wrong`,`REAL - Float will return`], explain:`Up then down = reversed.`}; }
+  else if(type===38){ q={q:`One payment KSh ${amt.toLocaleString()}, but 3 friends want 3x goods.`, msg:`One SMS, 3 people want goods`, correct:`ONE PAYMENT = ONE GOODS`, wrongs:[`GIVE - They shared`,`GIVE - They are friends`,`FAKE - Amount is wrong`], explain:`One payment = one goods.`}; }
+  else if(type===39){ q={q:`${name} buys KSh 50 daily. Today sends KSh ${amt.toLocaleString()}.`, msg:`History: 50 daily - Today: ${amt.toLocaleString()}`, correct:`SUSPICIOUS - Pattern changed`, wrongs:[`REAL - He got salary`,`REAL - Pattern does not matter`,`FAKE - Amount is wrong`], explain:`Sudden change = check extra.`}; }
+  else if(type===40){ q={q:`Best way to verify KSh ${amt.toLocaleString()} payment from ${name}?`, msg:`How to verify?`, correct:`CHECK - Your Till statement`, wrongs:[`TRUST - Customer SMS`,`TRUST - Customer photo`,`CHECK - His phone`], explain:`Only your Till is truth.`}; }
+  else if(type===41){ q={q:`${name} sent KSh ${amt.toLocaleString()} via Send Money. SMS says Cost 0.`, msg:`Send Money - Cost 0`, correct:`FAKE - Send Money has cost`, wrongs:[`REAL - Send Money is free`,`FAKE - Amount is wrong`,`REAL - Cost is 0`], explain:`Send Money charges.`}; }
+  else if(type===42){ q={q:`${name} sent KSh ${amt.toLocaleString()} via Till. SMS says Cost 0.`, msg:`Till - Cost 0`, correct:`REAL - Till cost is 0`, wrongs:[`FAKE - Cost is wrong`,`FAKE - Amount is wrong`,`REAL - Cost should be 23`], explain:`Till to receiver is 0.`}; }
+  else if(type===43){ q={q:`SMS says "KSh ${amt.toLocaleString()} in words: Five thousand".`, msg:`Number + Words in SMS`, correct:`FAKE - No words in SMS`, wrongs:[`REAL - Words are normal`,`FAKE - Amount is wrong`,`REAL - Words do not matter`], explain:`Safaricom: numbers only.`}; }
+  else if(type===44){ q={q:`${name} says Till 3056305 money came, but Till shows KSh ${amt.toLocaleString()} from ${phone}.`, msg:`Till: ${phone} - KSh ${amt.toLocaleString()}`, correct:`REAL - Till confirms sender`, wrongs:[`FAKE - Till is wrong`,`FAKE - Amount is wrong`,`REAL - Till is fake`], explain:`Till matches sender.`}; }
+  else if(type===45){ q={q:`What is correct M-Pesa code length?`, msg:`Code: ${code}`, correct:`10 - Letters + numbers`, wrongs:[`8 - Letters only`,`12 - Numbers only`,`ANY - Length does not matter`], explain:`10 chars.`}; }
+  else if(type===46){ q={q:`Safaricom asks for PIN on call from ${phone}.`, msg:`"Tell me your PIN"`, correct:`REFUSE - Never share PIN`, wrongs:[`GIVE - He is Safaricom`,`GIVE - He knows Till`,`FAKE - Amount is wrong`], explain:`Never share PIN.`}; }
+  else if(type===47){ q={q:`${name} says "I sent KSh ${amt.toLocaleString()} to wrong Till, refund me".`, msg:`Wrong Till - Refund me`, correct:`REFUSE - Call Safaricom 100`, wrongs:[`REFUND - He has SMS`,`REFUND - He is crying`,`FAKE - Amount is wrong`], explain:`Only Safaricom reverses.`}; }
+  else if(type===48){ q={q:`${name} paid KSh ${amt.toLocaleString()}, Till confirms. You give goods.`, msg:`Till: Money is there`, correct:`REAL - Give goods now`, wrongs:[`FAKE - Do not give goods`,`FAKE - Amount is wrong`,`REAL - Wait 1 hour`], explain:`Till confirmed = pay.`}; }
+  else { q={q:`Same code ${code} used for two KSh ${amt.toLocaleString()} payments.`, msg:`Same code twice`, correct:`FAKE - Code cannot repeat`, wrongs:[`REAL - Codes can repeat`,`FAKE - Amount is wrong`,`REAL - Both are real`], explain:`One code = one payment.`}; }
+  return {q:q.q, msg:q.msg||"", correctText:q.correct, wrongs:q.wrongs, explain:q.explain};
+}
+async function loadCustomQs(){ try{ let snap=await window.fb.get(window.fb.ref(window.db,'customQuestions')); if(snap.exists()){ let arr=Object.values(snap.val()); localStorage.setItem('agent_custom_qs', JSON.stringify(arr)); return arr; } }catch(e){} return []; }
+function getQuestions(count){
+  let allTypes = shuffleCrypto(Array.from({length:50},(_,i)=>i));
+  let chosenTypes = allTypes.slice(0, count);
+let raw = chosenTypes.map(t=>generateOneQuestion(t));
+let custom = JSON.parse(localStorage.getItem('agent_custom_qs')||'[]');
+if(custom.length>0){ let customRaw = custom.map(c=>({q:c.q, msg:c.q, correctText:c.correctText, wrongs:c.wrongs, explain:c.explain||""})); raw = [...customRaw.slice(0,5), ...raw].slice(0,count); }
+  let positions=[]; let base=Math.floor(count/4); let extra=count%4;
+  for(let p=0;p<4;p++){ let c=base + (p<extra?1:0); for(let i=0;i<c;i++) positions.push(p); }
+  positions = shuffleCrypto(positions);
+  let out = raw.map((r,idx)=>{
+    let correctPos = positions[idx];
+    let wrongs = shuffleCrypto(r.wrongs);
+    let opts = []; let wIdx=0;
+    for(let p=0;p<4;p++){ if(p===correctPos) opts.push(r.correctText); else opts.push(wrongs[wIdx++]); }
+    return {q:r.q, msg:r.msg, opts, correct:correctPos, explain:r.explain};
+  });
+  return shuffleCrypto(out);
+}
+function showMenu(){hideAll();document.getElementById('menu').style.display='block';syncStats();}
+function hideAll(){['menu','tournamentPay','game','gameover'].forEach(id=>document.getElementById(id).style.display='none');}
+function showTournament(){hideAll();document.getElementById('tournamentPay').style.display='block';}
+function howTo(){alert("VERY EASY QUESTIONS:\n- 8 seconds Per Quiz\n- All answers must be correct to Earn\n- Trick in 1 detail\n- Prizes: 1st 250, 2nd 150, 3rd 100");}
+// --- FIXED: PAY -> WAIT FOR CALLBACK -> ONLY THEN START ---
+async function payWithSTK(){
+  let name = document.getElementById('playerName').value.trim();
+  let phone = document.getElementById('payPhone').value.trim();
+  let amount = document.getElementById('payAmount').value.trim() || "20";
+  let err = document.getElementById('payError');
+  err.innerText = "";
+  if(name.length < 2){ err.innerText = "Enter your real name"; return; }
+  if(!/^(0|254|\+254)?[17]\d{8}$/.test(phone)){ err.innerText = "Enter valid phone e.g. 0712345678"; return; }
+  playerName = name;
+  localStorage.setItem('agent_my_name', name);
+  localStorage.setItem('agent_my_phone', phone);
+  currentTicket = phone;
+  localStorage.setItem('agent_my_code', phone);
+  const btn = document.getElementById('payNowBtn');
+  btn.disabled = true; btn.innerText = "Sending STK...";
+  document.getElementById('statusArea').innerHTML = `<div class="statusBox waiting"><span class="spinner"></span> Sending STK Push to ${phone}... Check your phone and enter your M-PESA PIN.</div>`;
+  try{
+    let res = await fetch(SERVER_URL + '/pay', {method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({phone: phone, amount: amount, name: name})});
+    let data = await res.json();
+    if(!data.success){
+      document.getElementById('statusArea').innerHTML = `<div class="statusBox rejectedBox">STK Failed: ${(data.message||'').slice(0,200)} ${data.error?JSON.stringify(data.error).slice(0,200):''}</div>`;
+      btn.disabled = false; btn.innerText = "Pay Now";
+      return;
+    }
+    // STK sent - DO NOT start game yet. Wait for real payment confirmation.
+    document.getElementById('statusArea').innerHTML = `<div class="statusBox waiting"><span class="spinner"></span> STK sent! Enter your M-PESA PIN on your phone.<br>Waiting for payment confirmation... Do NOT close this page.<br><span id="waitCount">Checking... 0s</span></div>`;
+    let waited = 0;
+    const poll = setInterval(async ()=>{
+      waited += 5;
+      const wc = document.getElementById('waitCount');
+      if(wc) wc.innerText = `Checking... ${waited}s / 120s`;
+      try{
+        const check = await fetch(`${SERVER_URL}/check-payment/${encodeURIComponent(phone)}`).then(r=>r.json());
+        if(check.paid){
+          clearInterval(poll);
+          document.getElementById('statusArea').innerHTML = `<div class="statusBox approvedBox"> Payment Confirmed! Receipt: ${check.receipt||''}<br>Starting tournament...</div>`;
+          setTimeout(()=>{ isTournament=true; startLevel(4); }, 1000);
+          return;
+        }
+      }catch(e){}
+      if(waited >= 120){
+        clearInterval(poll);
+        document.getElementById('statusArea').innerHTML = `<div class="statusBox rejectedBox">❌ Payment NOT confirmed in 2 minutes.<br>Did you enter PIN? Did you cancel? Try Pay again.</div>`;
+        btn.disabled = false; btn.innerText = "Pay Now - Try Again";
+      }
+    }, 5000);
+  }catch(e){ document.getElementById('statusArea').innerHTML = `<div class="statusBox rejectedBox">Error: Cannot reach payment server at ${SERVER_URL}<br>${e.message}</div>`; btn.disabled=false; btn.innerText="Pay Now"; }
+}
+async function payWithMpesa(){ return payWithSTK(); }
+function playFree(){if(lives<=0){alert("No lives! Come back tomorrow.");return;}isTournament=false;startLevel(1);}
+async function startLevel(l){level=l;await loadCustomQs();currentQuestions=getQuestions(l==4?20:10);float=l==4?5000:10000;trust=100;index=0;combo=0;correctCount=0;hideAll();document.getElementById('game').style.display='block';document.getElementById('levelTitle').innerText=l==4?"TOURNAMENT | "+currentTicket:"FREE PRACTICE | 10 Qs";show();}
+function show(){if(index>=currentQuestions.length){winLevel();return;}if(float<=0||trust<=0){loseLevel();return;}let q=currentQuestions[index];answered=false;document.getElementById('qNum').innerText="QUESTION "+(index+1)+" / "+currentQuestions.length;document.getElementById('hardTag').innerText="VERY EASY | 8s";document.getElementById('qText').innerText=q.q;let msgEl=document.getElementById('qMsg');if(q.msg){msgEl.style.display='block';msgEl.innerText=q.msg;}else{msgEl.style.display='none';}document.getElementById('cust').innerText=(index+1)+" / "+currentQuestions.length;document.getElementById('progBar').style.width=((index/currentQuestions.length)*100)+"%";document.getElementById('pressure').innerText="8 SECONDS";document.getElementById('float').innerText="KSh "+float.toLocaleString();document.getElementById('trust').innerText=trust+"%";let letters=["A","B","C","D"];let h="";q.opts.forEach((opt,i)=>{h+=`<button class="opt" onclick="answer(${i})"><b>${letters[i]}</b><span>${opt}</span></button>`;});document.getElementById('options').innerHTML=h;document.getElementById('result').innerText="";timeLeft=8;document.getElementById('timer').innerText=timeLeft+"s";clearInterval(timerInt);timerInt=setInterval(()=>{timeLeft--;document.getElementById('timer').innerText=timeLeft+"s";if(timeLeft<=0){clearInterval(timerInt);if(!answered){trust-=7;combo=0;updateHUD();document.getElementById('result').innerText="Too slow! -7% Trust | Correct was "+letters[q.correct];setTimeout(()=>{index++;show();},1200);}}},1000);}
+function updateHUD(){document.getElementById('float').innerText="KSh "+float.toLocaleString();document.getElementById('trust').innerText=trust+"%";document.getElementById('combo').innerText=combo;}
+function answer(choice){if(answered)return;answered=true;clearInterval(timerInt);let q=currentQuestions[index];let letters=["A","B","C","D"];let btns=document.querySelectorAll('.opt');btns.forEach(b=>b.disabled=true);if(choice===q.correct){let bonus=combo>=5?2:1;float+=100*bonus;trust=Math.min(100,trust+2);combo++;correctCount++;btns[choice].classList.add('correct');document.getElementById('result').innerText="Correct! +KSh "+(100*bonus)+" | "+q.explain;if(combo==5)document.getElementById('result').innerText+=" COMBO x2!";}else{trust-=15;combo=0;float-=50;btns[choice].classList.add('wrong');btns[q.correct].classList.add('correct');document.getElementById('result').innerText="Wrong! -15% Trust | Correct was "+letters[q.correct]+" | "+q.explain;}updateHUD();index++;setTimeout(show,1800);}
+async function winLevel(){hideAll();document.getElementById('gameover').style.display='block';document.getElementById('overTitle').innerText=isTournament?"TOURNAMENT FINISHED!":"PRACTICE DONE!";document.getElementById('overEmoji').innerText=isTournament?"TOURNAMENT COMPLETE":"PRACTICE COMPLETE";document.getElementById('overText').innerText="Player: "+playerName+" | Ticket: "+currentTicket+" | Correct: "+correctCount+" / "+currentQuestions.length+" | Float: KSh "+float+" | Trust: "+trust+"%";document.getElementById('finalScore').innerText="Final Score: KSh "+float.toLocaleString();document.getElementById('winBox').style.display=(isTournament&&float>=8000)?"block":"none";let myPhone = localStorage.getItem('agent_my_phone')||'';if(window.firebaseReady&&isTournament){ await window.fb.push(window.fb.ref(window.db,'leaderboard'),{name:playerName,score:float,ticket:currentTicket,phone:myPhone,date:new Date().toLocaleString(),plays:1}); }let best=parseInt(localStorage.getItem('agent_best')||'0');if(float>best)localStorage.setItem('agent_best',float);if(!isTournament){lives--;localStorage.setItem('agent_lives',lives);}syncStats();}
+function loseLevel(){hideAll();document.getElementById('gameover').style.display='block';document.getElementById('overTitle').innerText="GAME OVER";document.getElementById('overEmoji').innerText="GAME OVER";document.getElementById('overText').innerText="Player: "+playerName+" | Correct: "+correctCount+" / "+currentQuestions.length+" | Float: KSh "+float+" | Trust: "+trust+"%";document.getElementById('finalScore').innerText="Try Again - Sharp agents never give up!";document.getElementById('winBox').style.display="none";if(!isTournament){lives--;localStorage.setItem('agent_lives',lives);}syncStats();}
+function shareScore(){let text="I played AGENT: Spot The Fake VERY HARD! I got "+correctCount+" / "+currentQuestions.length+" correct! Score KSh "+float+"! Can you beat me? Entry KSh 20 to Till 3056305. Win 250 / 150 / 100. Play here: ";window.open("https://wa.me/?text="+encodeURIComponent(text+window.location.href),"_blank");}
+</script>
+</body>
+</html>

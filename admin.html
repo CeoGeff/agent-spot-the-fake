@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta name="viewport" content="width=device-width, initial-scale=1"><title>AGENT Admin - Spot The Fake</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Inter',system-ui,sans-serif;background:#F1F5F9;color:#0F172A;padding:0;-webkit-font-smoothing:antialiased}
+.topbar{background:#0F172A;color:#fff;padding:16px 20px;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;z-index:10;border-bottom:1px solid #1E293B}
+.topbar b{letter-spacing:.3px;font-size:14px;font-weight:800}.topbar small{display:block;color:#94A3B8;font-size:11px;font-weight:500;margin-top:3px;letter-spacing:.2px}
+.live{display:inline-flex;align-items:center;gap:7px;background:#14532D;color:#BBF7D0;padding:7px 12px;border-radius:999px;font-size:11px;font-weight:700;letter-spacing:.6px}
+.live i{width:7px;height:7px;background:#22C55E;border-radius:50%;display:inline-block}
+.container{max-width:680px;margin:0 auto;padding:18px 16px 32px}
+.card{background:#fff;border-radius:14px;padding:22px;margin-top:16px;box-shadow:0 1px 2px rgba(15,23,42,.06);border:1px solid #E2E8F0}
+.card-dark{background:#0F172A;color:#fff;border:1px solid #0F172A}
+.card-dark h3{color:#fff}
+h2{font-size:20px;font-weight:800;letter-spacing:-.3px}h3{font-size:15px;font-weight:700;margin-bottom:6px}
+.muted{font-size:13px;color:#64748B;line-height:1.6}
+input{width:100%;padding:13px 14px;border-radius:10px;margin:7px 0 14px;border:1px solid #CBD5E1;background:#F8FAFC;font-size:14px;font-family:inherit;outline:none;transition:.15s}
+input:focus{border-color:#0F172A;background:#fff;box-shadow:0 0 0 3px rgba(15,23,42,.08)}
+label{font-size:11px;font-weight:700;letter-spacing:.6px;color:#334155;text-transform:uppercase}
+button{border:0;border-radius:10px;padding:13px;font-weight:700;cursor:pointer;font-family:inherit;font-size:14px;transition:.15s}
+button:active{transform:scale(.98)}
+.btn-green{background:#15803D;color:#fff;width:100%;padding:14px}
+.btn-green:hover{background:#166534}
+.btn-gold{background:#B45309;color:#fff;width:100%;padding:15px;font-size:14px}
+.btn-gold:hover{background:#92400E}
+.btn-dark{background:#334155;color:#fff;width:100%;padding:14px}
+.btn-dark:hover{background:#1E293B}
+.btn-delete{background:#fff;color:#DC2626;border:1px solid #FECACA;padding:7px 11px;font-size:12px;margin-top:8px}
+.btn-open{background:#15803D;color:#fff;padding:15px;font-size:14px;flex:1}
+.btn-close{background:#DC2626;color:#fff;padding:15px;font-size:14px;flex:1}
+.flex{display:flex;gap:10px}.flex button{flex:1}
+.row{border-radius:12px;padding:15px;margin:10px 0;color:#0F172A;background:#fff;border:1px solid #E2E8F0}
+.row.top1{background:#FFFBEB;border-color:#D97706;border-width:1.5px}
+.row.top2{background:#F8FAFC;border-color:#94A3B8;border-width:1.5px}
+.row.top3{background:#FFF7ED;border-color:#EA580C;border-width:1.5px}
+.badge{display:inline-block;padding:5px 10px;border-radius:999px;font-size:11px;font-weight:700;background:#0F172A;color:#fff;white-space:nowrap}
+.badge-gold{background:#B45309}.badge-green{background:#15803D}.badge-red{background:#DC2626}.badge-grey{background:#64748B}
+.count{background:#0F172A;color:#fff;padding:4px 10px;border-radius:999px;font-size:11px;font-weight:700;min-width:26px;text-align:center;display:inline-block}
+.meta{font-size:12.5px;color:#64748B;margin-top:5px;line-height:1.5}
+.section-title{font-size:13px;font-weight:800;margin-top:28px;display:flex;align-items:center;gap:9px;text-transform:uppercase;letter-spacing:.5px;color:#0F172A}
+.section-title span.divider{flex:1;height:1px;background:#E2E8F0}
+.note{background:#F0FDF4;border:1px solid #BBF7D0;color:#14532D;padding:12px 14px;border-radius:10px;font-size:12.5px;margin-top:12px;line-height:1.6}
+.status-pill{display:inline-flex;align-items:center;gap:7px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);padding:6px 11px;border-radius:999px;font-size:11px;font-weight:700;letter-spacing:.5px}
+.status-dot{width:7px;height:7px;border-radius:50%;background:#22C55E;display:inline-block}
+.status-dot.closed{background:#F87171}
+.empty{padding:16px;text-align:center;color:#64748B;font-size:13px;background:#fff;border:1px dashed #CBD5E1;border-radius:12px;margin-top:10px}
+.kpi{display:flex;gap:10px;margin-top:14px}
+.kpi div{flex:1;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:10px;padding:11px 12px}
+.kpi small{display:block;color:#94A3B8;font-size:10px;font-weight:700;letter-spacing:.6px;text-transform:uppercase}
+.kpi b{font-size:16px;margin-top:3px;display:block}
+.player-row{display:flex;justify-content:space-between;gap:10px;padding:12px 14px;border:1px solid #E2E8F0;border-radius:10px;margin-top:8px;background:#fff}
+</style></head><body>
+<div class="topbar"><div><b>AGENT - ADMIN PANEL</b><small>Spot The Fake &nbsp;|&nbsp; Till 3056305 &nbsp;|&nbsp; 11AM &amp; 8PM</small></div><span class="live"><i></i> LIVE</span></div>
+<div class="container">
+<div id="login" class="card"><h2>Admin Login</h2><p class="muted" style="margin-top:6px">Enter your PIN to manage the game, winners and questions.</p><div style="margin-top:16px"><label>Admin PIN</label><input id="pin" type="password" placeholder="Enter Admin PIN" autocomplete="off"><button class="btn-green" onclick="unlock()">Unlock Admin Panel</button><p id="pinErr" style="color:#DC2626;font-weight:700;font-size:13px;margin-top:8px"></p></div></div>
+<div id="admin" style="display:none">
+<div class="card card-dark"><div style="display:flex;justify-content:space-between;align-items:flex-start;gap:12px"><div><span class="status-pill"><span class="status-dot" id="statusDot"></span><span id="statusText">LOADING</span></span><h3 id="stats" style="font-size:19px;margin-top:12px">Loading...</h3><p style="font-size:12.5px;color:#94A3B8;margin-top:4px;line-height:1.5" id="totalBox"></p></div></div>
+<div class="kpi">
+<div><small>Total Players</small><b id="totalPaid" style="color:#4ADE80;font-size:20px">KSh 0</b><small id="totalPaidBreakdown" style="color:#94A3B8;text-transform:none;letter-spacing:0">0 players x KSh 20 = KSh 0</small></div>
+<div><small>Prize Pool (40%)</small><b id="prizePoolAmt">KSh 0</b><small style="color:#94A3B8;text-transform:none;letter-spacing:0">From collected</small></div>
+</div>
+<div class="flex" style="margin-top:16px">
+<button id="openBtn" type="button" class="btn-open">Open Game</button>
+<button id="closeBtn" type="button" class="btn-close">Close Game</button>
+</div>
+<p id="btnMsg" style="font-size:12px;color:#FDE68A;margin-top:10px"></p>
+<p id="serverMsg" style="font-size:12px;color:#FCA5A5;margin-top:4px;line-height:1.6"></p>
+<p style="font-size:12px;color:#94A3B8;margin-top:6px;line-height:1.6">Open - Players can pay KSh 20 and play instantly.<br>Close - No new plays. Reset clears for the next 11AM / 8PM game.</p></div>
+
+<div class="section-title">Active Players - Paid via M-PESA <span class="count" id="activeCount">0</span><span class="divider"></span></div>
+<p class="muted" style="margin-top:6px">These are players who have PAID and are confirmed by Safaricom. Updates every 5 seconds from server.</p>
+<div id="activeList"><div class="empty">No paid players yet</div></div>
+
+<div class="section-title">Leaderboard - Top 3 + All Players <span class="count" id="winnerCount">0</span><span class="divider"></span></div>
+<div id="leaderList"></div>
+<button class="btn-gold" onclick="payAllTop3()">Pay All Top 3 in One Click<br><span style="font-size:12px;font-weight:600;opacity:.9">1st KSh 250 &nbsp;|&nbsp; 2nd KSh 150 &nbsp;|&nbsp; 3rd KSh 100 &nbsp;=&nbsp; KSh 500 Total</span></button>
+<p id="payResult" style="font-size:13px;margin-top:10px;white-space:pre-wrap;line-height:1.6"></p>
+<div class="section-title">Add Question <span class="divider"></span></div>
+<div class="card"><h3>Add New Question</h3><p class="muted">Type the correct answer below. In the game, the 4 choices will be shuffled randomly - the correct answer will not always be first.</p>
+<div style="margin-top:14px">
+<label>Question</label><input id="qText" placeholder="e.g. SMS says Till 3056306, amount KSh 20...">
+<label>Correct Answer - Will be shuffled in game</label><input id="qCorrect" placeholder="FAKE - Wrong Till">
+<label>Wrong Option 1</label><input id="qW1" placeholder="REAL - Till is correct">
+<label>Wrong Option 2</label><input id="qW2" placeholder="FAKE - Amount wrong">
+<label>Wrong Option 3</label><input id="qW3" placeholder="FAKE - Code wrong">
+<label>Explanation - Shown after player answers</label><input id="qExplain" placeholder="One digit wrong = wrong Till">
+<button class="btn-green" onclick="addQuestion()">Add Question</button><p id="qMsg" style="font-size:13px;margin-top:8px"></p><div class="note">Shuffling: The game places the correct answer randomly in A / B / C / D - 5 times each in 20 questions. Players cannot guess by position.</div>
+<div id="customQs"></div></div></div>
+<div style="margin-top:28px"><button onclick="resetGame()" class="btn-dark">Reset After Play Ends (Clear All + Close Game)</button></div>
+<p style="text-align:center;color:#64748B;font-size:11.5px;margin-top:16px">AGENT Spot The Fake &nbsp;|&nbsp; Till 3056305 &nbsp;|&nbsp; 11AM &amp; 8PM Daily</p>
+</div></div>
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import { getDatabase, ref, onValue, push, remove, set, get, update } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
+const firebaseConfig = { apiKey: "AIzaSyCCE1lmG1u0mJk_iUkaG0vr_5RqoswBSNs", authDomain: "agent-spot-fake.firebaseapp.com", databaseURL: "https://agent-spot-fake-default-rtdb.firebaseio.com", projectId: "agent-spot-fake", storageBucket: "agent-spot-fake.firebasestorage.app", messagingSenderId: "422926632685", appId: "1:422926632685:web:588449ea7fa6fdada76ee4", measurementId: "G-2LPC3732XZ" };
+const app = initializeApp(firebaseConfig); const db = getDatabase(app);
+const PIN = "9989#ooko";
+const PRICE = 20;
+const SERVER_URL = "http://localhost:3000";
+let leaders=[];
+let paidPlayersList=[];
+
+function updateTotalsFromServer(count, total, prizePool){
+  document.getElementById('totalPaid').innerText = 'KSh ' + total.toLocaleString();
+  document.getElementById('totalPaidBreakdown').innerText = count + ' players x KSh ' + PRICE + ' = KSh ' + total.toLocaleString();
+  document.getElementById('prizePoolAmt').innerText = 'KSh ' + prizePool.toLocaleString();
+  document.getElementById('activeCount').innerText = count;
+}
+
+async function loadActivePlayers(){
+  try{
+    const r = await fetch(`${SERVER_URL}/players`).then(x=>x.json());
+    const players = r.players || [];
+    paidPlayersList = players;
+    const count = r.count ?? players.length;
+    const total = r.total ?? (count * PRICE);
+    const prizePool = r.prizePool ?? Math.floor(total * 0.4);
+    updateTotalsFromServer(count, total, prizePool);
+    if(players.length === 0){
+      document.getElementById('activeList').innerHTML = '<div class="empty">No paid players yet</div>';
+      return;
+    }
+    document.getElementById('activeList').innerHTML = players.map((p,i)=>{
+      const name = p.name || p.playerName || 'Player';
+      const phone = p.phone || p.Phone || '--';
+      const amt = p.amount || PRICE;
+      const time = p.time ? new Date(p.time).toLocaleString() : (p.date || '');
+      const receipt = p.receipt || p.MpesaReceiptNumber || '';
+      return `<div class="player-row"><div><b>${i+1}. ${name}</b><div class="meta">Phone: ${phone} | Receipt: ${receipt || '--'}<br>${time}</div></div><div style="text-align:right"><b>KSh ${amt}</b><br><span class="badge badge-green">PAID</span></div></div>`;
+    }).join('');
+  }catch(e){
+    document.getElementById('serverMsg').innerText = 'SERVER NOT RUNNING - Cannot load Active Players. Start: node server.js';
+  }
+}
+
+async function syncServer(action){
+  try{
+    const res = await fetch(`${SERVER_URL}/admin/${action}`, {method:'POST'});
+    const data = await res.json();
+    document.getElementById('serverMsg').innerText = `Server: ${action.toUpperCase()} confirmed - gameOpen=${data.gameOpen}`;
+    return true;
+  }catch(e){
+    document.getElementById('serverMsg').innerText = `SERVER NOT RUNNING! Firebase updated but STK server on port 3000 did NOT get it. Run: node server.js then click ${action} again.`;
+    return false;
+  }
+}
+
+function renderStatus(st){
+  document.getElementById('stats').innerText=`Game: ${st.toUpperCase()} - ${st==='open'?'Players can join':'No new joins'}`;
+  document.getElementById('statusText').innerText=st.toUpperCase();
+  document.getElementById('statusDot').className='status-dot'+(st==='open'?'':' closed');
+}
+
+window.unlock=()=>{
+  if(document.getElementById('pin').value!==PIN){document.getElementById('pinErr').innerText="Wrong PIN";return;}
+  document.getElementById('login').style.display='none'; document.getElementById('admin').style.display='block'; loadGameState();
+  loadActivePlayers();
+  setInterval(loadActivePlayers, 5000);
+  onValue(ref(db,'leaderboard'), s=>{
+    let list=s.exists()?Object.values(s.val()):[]; list.sort((a,b)=>b.score-a.score); leaders=list;
+    document.getElementById('winnerCount').innerText=list.length;
+    let medals=["1st - Pay KSh 250","2nd - Pay KSh 150","3rd - Pay KSh 100"];
+    document.getElementById('leaderList').innerHTML=list.map((p,i)=>{ let cls=i===0?'top1':i===1?'top2':i===2?'top3':''; let tag=i<3?medals[i]:`Rank ${i+1}`; return `<div class="row ${cls}"><div style="display:flex;justify-content:space-between;gap:10px"><b>${i+1}. ${p.name}</b><span class="badge">${tag}</span></div><div style="font-weight:800;margin-top:6px">KSh ${p.score.toLocaleString()} &nbsp;|&nbsp; Phone: ${p.phone||'--'}</div><div class="meta">${p.date||''} &nbsp;|&nbsp; Phone: ${p.ticket||''} &nbsp;|&nbsp; Plays: ${p.plays||1}</div></div>`; }).join('')||'<div class="empty">No scores yet</div>';
+  });
+  onValue(ref(db,'customQuestions'), s=>{ let l=s.exists()?Object.entries(s.val()):[]; document.getElementById('customQs').innerHTML=l.map(([k,q])=>`<div style="border:1px solid #E2E8F0;border-radius:10px;padding:13px;margin-top:12px;font-size:13px;background:#F8FAFC"><b>${q.q}</b><div style="color:#14532D;margin-top:4px">Correct: ${q.correctText} <span style="color:#64748B">(shuffled in game)</span></div><button class="btn-delete" onclick="delQ('${k}')">Delete</button></div>`).join('')||''; });
+  onValue(ref(db,'gameStatus'), s=>{ let st = s.exists()?s.val().status:'open'; renderStatus(st); });
+};
+async function loadGameState(){
+  try{
+    let snap = await get(ref(db,'gameStatus'));
+    let st = snap.exists()?snap.val().status:'open';
+    renderStatus(st);
+    document.getElementById('totalBox').innerText=`Till: 3056305  |  Instant Play - No Approval Needed`;
+    try{
+      const r = await fetch(`${SERVER_URL}/game-state`).then(x=>x.json());
+      document.getElementById('serverMsg').innerText = `Server (port 3000): gameOpen=${r.gameOpen} | gameStarted=${r.gameStarted} | paid=${r.playersCount}`;
+    }catch(e){ document.getElementById('serverMsg').innerText = `Server NOT running on port 3000. Start it: node server.js`; }
+  }catch(e){ document.getElementById('stats').innerText="Loading..."; }
+}
+async function openGame(){
+  await set(ref(db,'gameStatus'), { status:'open', updatedAt: Date.now() });
+  const ok = await syncServer('open');
+  document.getElementById('btnMsg').innerText = ok ? "Game opened - Firebase + Server both OPEN" : "Game opened in Firebase only - Server NOT updated!";
+  if(ok) alert("GAME OPENED - Firebase + Server both OPEN - Players can now pay");
+  else alert("Firebase OPEN but Server NOT running. Start node server.js and click OPEN again.");
+  loadGameState(); loadActivePlayers();
+}
+async function closeGame(){
+  await set(ref(db,'gameStatus'), { status:'closed', updatedAt: Date.now() });
+  const ok = await syncServer('close');
+  document.getElementById('btnMsg').innerText = ok ? "Game closed - Firebase + Server both CLOSED" : "Game closed in Firebase only - Server NOT updated!";
+  if(ok) alert("GAME CLOSED - Firebase + Server both CLOSED - No STK will pop");
+  else alert("Firebase CLOSED but Server NOT running. Start node server.js and click CLOSE again.");
+  loadGameState();
+}
+window.openGame=openGame; window.closeGame=closeGame;
+window.resetGame=async()=>{
+  if(!confirm("Reset? Clears Leaderboard + closes game for next 11AM/8PM play.")) return;
+  await remove(ref(db,'leaderboard'));
+  await set(ref(db,'gameStatus'), { status:'closed', updatedAt: Date.now() });
+  await syncServer('reset');
+  alert("RESET DONE - Firebase + Server both RESET - Ready for next game");
+  loadGameState(); loadActivePlayers();
+};
+window.payAllTop3=async()=>{
+  if(leaders.length<3){ alert("Need at least Top 3 players"); return; }
+  let top3=leaders.slice(0,3); let amounts=[250,150,100];
+  if(!confirm(`Pay ALL Top 3 MANUALLY from Till?\n1. ${top3[0].name} - KSh 250\n2. ${top3[1].name} - KSh 150\n3. ${top3[2].name} - KSh 100\nTotal KSh 500`)) return;
+  document.getElementById('payResult').innerText="Pay manually from your Till 3056305:\n"+top3.map((p,i)=>`${i+1}. ${p.name} - KSh ${amounts[i]}`).join('\n')+"\n\nNo automatic payment - Firebase only. Send via M-PESA Buy Goods / Send Money.";
+};
+window.addQuestion=async()=>{ let q=document.getElementById('qText').value.trim(), c=document.getElementById('qCorrect').value.trim(), w1=document.getElementById('qW1').value.trim(), w2=document.getElementById('qW2').value.trim(), w3=document.getElementById('qW3').value.trim(), ex=document.getElementById('qExplain').value.trim(); if(!q||!c||!w1) {document.getElementById('qMsg').innerText="Fill Question + Correct + at least Wrong 1";return;} await push(ref(db,'customQuestions'),{q, correctText:c, wrongs:[w1,w2||"Wrong",w3||"Wrong"], explain:ex||""}); document.getElementById('qMsg').innerText="Question added. It will be shuffled in next games."; };
+window.delQ=async(k)=>{ await remove(ref(db,'customQuestions/'+k)); };
+document.getElementById('openBtn').addEventListener('click', openGame);
+document.getElementById('closeBtn').addEventListener('click', closeGame);
+</script>
+</body>
+</html>
