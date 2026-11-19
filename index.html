@@ -57,7 +57,7 @@ const firebaseConfig = { apiKey: "AIzaSyCCE1lmG1u0mJk_iUkaG0vr_5RqoswBSNs", auth
 const app = initializeApp(firebaseConfig); const db = getDatabase(app); window.db=db; window.fb={ref,push,set,onValue,update,get,remove}; window.firebaseReady=true;
 </script>
 <script>
-const SERVER_URL = "http://localhost:3000";
+const SERVER_URL = "https://agent-spot-the-fake.onrender.com";
 // LIVE: const SERVER_URL = "https://YOUR-RENDER-URL.onrender.com";
 let float=10000,trust=100,index=0,timeLeft=8,timerInt,level=1,combo=0,isTournament=false,playerName="Player",currentTicket="",currentQuestions=[],correctCount=0,answered=false;
 let lives=parseInt(localStorage.getItem('agent_lives')||'3'); let today=new Date().toDateString(); if(localStorage.getItem('agent_day')!==today){lives=3;localStorage.setItem('agent_lives',3);localStorage.setItem('agent_day',today);}
