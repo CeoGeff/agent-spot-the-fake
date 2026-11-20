@@ -65,7 +65,7 @@ button:active{transform:scale(.98)}
 </div>
 <p id="btnMsg" style="font-size:12px;color:#FDE68A;margin-top:10px"></p>
 <p id="serverMsg" style="font-size:12px;color:#FCA5A5;margin-top:4px;line-height:1.6"></p>
-<p style="font-size:12px;color:#94A3B8;margin-top:6px;line-height:1.6">Open - Players can pay KSh 20 and play instantly.<br>Close - No new plays. Reset clears for the next 11AM / 8PM game.</p></div>
+<p style="font-size:12px;color:#94A3B8;margin-top:6px;line-height:1.6">Game is ALWAYS OPEN - Players can pay KSh 20 and play instantly.<br>Close is disabled. Reset clears for the next game but keeps game OPEN.</p></div>
 
 <div class="section-title">Active Players - Paid via M-PESA <span class="count" id="activeCount">0</span><span class="divider"></span></div>
 <p class="muted" style="margin-top:6px">These are players who have PAID and are confirmed by Safaricom. Updates every 5 seconds from server.</p>
@@ -86,7 +86,7 @@ button:active{transform:scale(.98)}
 <label>Explanation - Shown after player answers</label><input id="qExplain" placeholder="One digit wrong = wrong Till">
 <button class="btn-green" onclick="addQuestion()">Add Question</button><p id="qMsg" style="font-size:13px;margin-top:8px"></p><div class="note">Shuffling: The game places the correct answer randomly in A / B / C / D - 5 times each in 20 questions. Players cannot guess by position.</div>
 <div id="customQs"></div></div></div>
-<div style="margin-top:28px"><button onclick="resetGame()" class="btn-dark">Reset After Play Ends (Clear All + Close Game)</button></div>
+<div style="margin-top:28px"><button onclick="resetGame()" class="btn-dark">Reset After Play Ends (Clear All - Game Stays Open)</button></div>
 <p style="text-align:center;color:#64748B;font-size:11.5px;margin-top:16px">AGENT Spot The Fake &nbsp;|&nbsp; Till 3056305 &nbsp;|&nbsp; 11AM &amp; 8PM Daily</p>
 </div></div>
 <script type="module">
@@ -146,9 +146,11 @@ async function syncServer(action){
 }
 
 function renderStatus(st){
-  document.getElementById('stats').innerText=`Game: ${st.toUpperCase()} - ${st==='open'?'Players can join':'No new joins'}`;
-  document.getElementById('statusText').innerText=st.toUpperCase();
-  document.getElementById('statusDot').className='status-dot'+(st==='open'?'':' closed');
+  // CHANGED: Game is ALWAYS OPEN - force open no matter what Firebase says
+  st = 'open';
+  document.getElementById('stats').innerText=`Game: OPEN - Players can join`;
+  document.getElementById('statusText').innerText='OPEN';
+  document.getElementById('statusDot').className='status-dot';
 }
 
 window.unlock=()=>{
@@ -163,13 +165,13 @@ window.unlock=()=>{
     document.getElementById('leaderList').innerHTML=list.map((p,i)=>{ let cls=i===0?'top1':i===1?'top2':i===2?'top3':''; let tag=i<3?medals[i]:`Rank ${i+1}`; return `<div class="row ${cls}"><div style="display:flex;justify-content:space-between;gap:10px"><b>${i+1}. ${p.name}</b><span class="badge">${tag}</span></div><div style="font-weight:800;margin-top:6px">KSh ${p.score.toLocaleString()} &nbsp;|&nbsp; Phone: ${p.phone||'--'}</div><div class="meta">${p.date||''} &nbsp;|&nbsp; Phone: ${p.ticket||''} &nbsp;|&nbsp; Plays: ${p.plays||1}</div></div>`; }).join('')||'<div class="empty">No scores yet</div>';
   });
   onValue(ref(db,'customQuestions'), s=>{ let l=s.exists()?Object.entries(s.val()):[]; document.getElementById('customQs').innerHTML=l.map(([k,q])=>`<div style="border:1px solid #E2E8F0;border-radius:10px;padding:13px;margin-top:12px;font-size:13px;background:#F8FAFC"><b>${q.q}</b><div style="color:#14532D;margin-top:4px">Correct: ${q.correctText} <span style="color:#64748B">(shuffled in game)</span></div><button class="btn-delete" onclick="delQ('${k}')">Delete</button></div>`).join('')||''; });
-  onValue(ref(db,'gameStatus'), s=>{ let st = s.exists()?s.val().status:'open'; renderStatus(st); });
+  onValue(ref(db,'gameStatus'), s=>{ renderStatus('open'); });
 };
 async function loadGameState(){
   try{
-    let snap = await get(ref(db,'gameStatus'));
-    let st = snap.exists()?snap.val().status:'open';
-    renderStatus(st);
+    // CHANGED: Always force Firebase to open
+    await set(ref(db,'gameStatus'), { status:'open', updatedAt: Date.now() });
+    renderStatus('open');
     document.getElementById('totalBox').innerText=`Till: 3056305  |  Instant Play - No Approval Needed`;
     try{
       const r = await fetch(`${SERVER_URL}/game-state`).then(x=>x.json());
@@ -186,20 +188,20 @@ async function openGame(){
   loadGameState(); loadActivePlayers();
 }
 async function closeGame(){
-  await set(ref(db,'gameStatus'), { status:'closed', updatedAt: Date.now() });
-  const ok = await syncServer('close');
-  document.getElementById('btnMsg').innerText = ok ? "Game closed - Firebase + Server both CLOSED" : "Game closed in Firebase only - Server NOT updated!";
-  if(ok) alert("GAME CLOSED - Firebase + Server both CLOSED - No STK will pop");
-  else alert("Firebase CLOSED but Server NOT running. Start node server.js and click CLOSE again.");
+  // CHANGED: Close is DISABLED - Game stays ALWAYS OPEN
+  await set(ref(db,'gameStatus'), { status:'open', updatedAt: Date.now() });
+  await syncServer('open');
+  document.getElementById('btnMsg').innerText = "Game is ALWAYS OPEN - Close is disabled";
+  alert("Game is ALWAYS OPEN - Close is disabled. Game stays OPEN.");
   loadGameState();
 }
 window.openGame=openGame; window.closeGame=closeGame;
 window.resetGame=async()=>{
-  if(!confirm("Reset? Clears Leaderboard + closes game for next 11AM/8PM play.")) return;
+  if(!confirm("Reset? Clears Leaderboard but game STAYS OPEN.")) return;
   await remove(ref(db,'leaderboard'));
-  await set(ref(db,'gameStatus'), { status:'closed', updatedAt: Date.now() });
+  await set(ref(db,'gameStatus'), { status:'open', updatedAt: Date.now() });
   await syncServer('reset');
-  alert("RESET DONE - Firebase + Server both RESET - Ready for next game");
+  alert("RESET DONE - Leaderboard cleared - Game STAYS OPEN");
   loadGameState(); loadActivePlayers();
 };
 window.payAllTop3=async()=>{
