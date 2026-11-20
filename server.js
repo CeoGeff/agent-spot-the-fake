@@ -17,8 +17,8 @@ const TILL_NUMBER = process.env.TILL_NUMBER || '3056305';
 const PASSKEY = process.env.PASSKEY;
 const CALLBACK_URL = process.env.CALLBACK_URL;
 
-// ========== ADMIN GAME CONTROL ==========
-let gameOpen = false; // Game starts CLOSED - Admin must OPEN
+// ========== ADMIN GAME CONTROL - GAME ALWAYS OPEN ==========
+let gameOpen = true; // Game ALWAYS OPEN - never closes
 let gameStarted = false;
 let paidPlayers = []; // Every successful payment = 1 entry, even same phone
 let pendingSTK = {}; // phone -> timestamp of last STK, to stop duplicate STK bug
@@ -35,24 +35,24 @@ app.post('/admin/open', (req, res) => {
 });
 
 app.post('/admin/close', (req, res) => {
-  gameOpen = false;
-  console.log('GAME CLOSED by Admin - Payments BLOCKED');
+  gameOpen = true; // CHANGED: Game stays ALWAYS OPEN, close is disabled
+  console.log('GAME CLOSE IGNORED - Game is ALWAYS OPEN');
   res.json({ success: true, gameOpen, gameStarted });
 });
 
 app.post('/admin/start', (req, res) => {
   gameStarted = true;
-  gameOpen = false; // Stop new payments once questions start
-  console.log('GAME STARTED - No more payments, questions live');
+  gameOpen = true; // CHANGED: Keep game OPEN even after start
+  console.log('GAME STARTED - Game stays OPEN');
   res.json({ success: true, gameOpen, gameStarted });
 });
 
 app.post('/admin/reset', (req, res) => {
-  gameOpen = false;
+  gameOpen = true; // CHANGED: Reset does NOT close game
   gameStarted = false;
   paidPlayers = [];
   pendingSTK = {};
-  console.log('GAME RESET by Admin');
+  console.log('GAME RESET by Admin - Game stays OPEN');
   res.json({ success: true, gameOpen, gameStarted });
 });
 
@@ -67,10 +67,7 @@ async function getToken() {
 
 // STK Push Endpoint - called from index.html
 app.post('/pay', async (req, res) => {
-  // 1. BLOCK IF GAME CLOSED - THIS FIXES YOUR BUG
-  if (!gameOpen) {
-    return res.status(403).json({ success: false, message: 'Game is CLOSED by Admin. Wait for Admin to OPEN the game.' });
-  }
+  // REMOVED: BLOCK IF GAME CLOSED - Game is ALWAYS OPEN now
   if (gameStarted) {
     return res.status(403).json({ success: false, message: 'Game already STARTED. No more payments.' });
   }
