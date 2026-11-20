@@ -58,7 +58,6 @@ const app = initializeApp(firebaseConfig); const db = getDatabase(app); window.d
 </script>
 <script>
 const SERVER_URL = "https://agent-spot-the-fake.onrender.com";
-// LIVE: const SERVER_URL = "https://YOUR-RENDER-URL.onrender.com";
 let float=10000,trust=100,index=0,timeLeft=8,timerInt,level=1,combo=0,isTournament=false,playerName="Player",currentTicket="",currentQuestions=[],correctCount=0,answered=false;
 let lives=parseInt(localStorage.getItem('agent_lives')||'3'); let today=new Date().toDateString(); if(localStorage.getItem('agent_day')!==today){lives=3;localStorage.setItem('agent_lives',3);localStorage.setItem('agent_day',today);}
 function syncStats(){document.getElementById('livesDisplay').innerText=lives;document.getElementById('livesDisplay2').innerText=lives;let b=parseInt(localStorage.getItem('agent_best')||'0');document.getElementById('bestScore').innerText="KSh "+b.toLocaleString();document.getElementById('bestScore2').innerText="KSh "+b.toLocaleString();} syncStats();
@@ -128,6 +127,19 @@ function generateOneQuestion(forcedType){
   return {q:q.q, msg:q.msg||"", correctText:q.correct, wrongs:q.wrongs, explain:q.explain};
 }
 async function loadCustomQs(){ try{ let snap=await window.fb.get(window.fb.ref(window.db,'customQuestions')); if(snap.exists()){ let arr=Object.values(snap.val()); localStorage.setItem('agent_custom_qs', JSON.stringify(arr)); return arr; } }catch(e){} return []; }
+// --- FREE PLAY QUESTIONS ONLY - TOURNAMENT UNTOUCHED ---
+const freeQuestions = [
+  { q: "A shopkeeper in Nairobi sells a school bag for KSh 800. A customer pays KSh 1,000. How much change should the customer receive?", msg: "Mathematics", opts: ["KSh 100", "KSh 150", "KSh 200", "KSh 250"], correct: 2, explain: "1,000 - 800 = KSh 200." },
+  { q: "Which organ in the human body is responsible for pumping blood?", msg: "Biology", opts: ["Lungs", "Heart", "Stomach", "Kidney"], correct: 1, explain: "The heart pumps blood around the body." },
+  { q: "Which is the capital city of Kenya?", msg: "Real-life Kenya", opts: ["Mombasa", "Kisumu", "Nakuru", "Nairobi"], correct: 3, explain: "Nairobi is Kenya's capital city." },
+  { q: "What happens when water is heated to 100°C under normal atmospheric pressure?", msg: "Chemistry", opts: ["It freezes", "It boils", "It becomes ice", "It turns into salt"], correct: 1, explain: "Water boils at 100°C at normal atmospheric pressure." },
+  { q: "A matatu carries 14 passengers. At the next stage, 6 passengers board. How many passengers are now in the matatu?", msg: "Mathematics", opts: ["18", "19", "20", "21"], correct: 2, explain: "14 + 6 = 20 passengers." },
+  { q: "Which part of a plant absorbs water and mineral salts from the soil?", msg: "Biology", opts: ["Leaves", "Flowers", "Roots", "Fruits"], correct: 2, explain: "Roots absorb water and minerals from the soil." },
+  { q: "Which of the following substances is commonly used to make mandazi rise during preparation?", msg: "Chemistry", opts: ["Baking powder", "Cooking oil", "Salt", "Water"], correct: 0, explain: "Baking powder helps dough rise." },
+  { q: "Which of these crops is commonly grown by farmers in Kenya?", msg: "Real-life Kenya", opts: ["Rice only", "Maize", "Cocoa only", "Apples only"], correct: 1, explain: "Maize is a major crop grown in Kenya." },
+  { q: "A student walks 2 kilometres to school every morning. How many kilometres does the student walk going to school and returning home?", msg: "Mathematics", opts: ["2 km", "3 km", "4 km", "5 km"], correct: 2, explain: "2 km going + 2 km returning = 4 km." },
+  { q: "Which vitamin does the human body produce when the skin is exposed to sunlight?", msg: "Biology", opts: ["Vitamin A", "Vitamin B", "Vitamin C", "Vitamin D"], correct: 3, explain: "Sunlight helps the skin produce vitamin D." }
+];
 function getQuestions(count){
   let allTypes = shuffleCrypto(Array.from({length:50},(_,i)=>i));
   let chosenTypes = allTypes.slice(0, count);
@@ -150,7 +162,6 @@ function showMenu(){hideAll();document.getElementById('menu').style.display='blo
 function hideAll(){['menu','tournamentPay','game','gameover'].forEach(id=>document.getElementById(id).style.display='none');}
 function showTournament(){hideAll();document.getElementById('tournamentPay').style.display='block';}
 function howTo(){alert("VERY EASY QUESTIONS:\n- 8 seconds Per Quiz\n- All answers must be correct to Earn\n- Trick in 1 detail\n- Prizes: 1st 250, 2nd 150, 3rd 100");}
-// --- FIXED: PAY -> WAIT FOR CALLBACK -> ONLY THEN START ---
 async function payWithSTK(){
   let name = document.getElementById('playerName').value.trim();
   let phone = document.getElementById('payPhone').value.trim();
@@ -175,7 +186,6 @@ async function payWithSTK(){
       btn.disabled = false; btn.innerText = "Pay Now";
       return;
     }
-    // STK sent - DO NOT start game yet. Wait for real payment confirmation.
     document.getElementById('statusArea').innerHTML = `<div class="statusBox waiting"><span class="spinner"></span> STK sent! Enter your M-PESA PIN on your phone.<br>Waiting for payment confirmation... Do NOT close this page.<br><span id="waitCount">Checking... 0s</span></div>`;
     let waited = 0;
     const poll = setInterval(async ()=>{
@@ -201,7 +211,7 @@ async function payWithSTK(){
 }
 async function payWithMpesa(){ return payWithSTK(); }
 function playFree(){if(lives<=0){alert("No lives! Come back tomorrow.");return;}isTournament=false;startLevel(1);}
-async function startLevel(l){level=l;await loadCustomQs();currentQuestions=getQuestions(l==4?20:10);float=l==4?5000:10000;trust=100;index=0;combo=0;correctCount=0;hideAll();document.getElementById('game').style.display='block';document.getElementById('levelTitle').innerText=l==4?"TOURNAMENT | "+currentTicket:"FREE PRACTICE | 10 Qs";show();}
+async function startLevel(l){level=l;await loadCustomQs();currentQuestions=(l==4?getQuestions(20):shuffleCrypto([...freeQuestions]));float=l==4?5000:10000;trust=100;index=0;combo=0;correctCount=0;hideAll();document.getElementById('game').style.display='block';document.getElementById('levelTitle').innerText=l==4?"TOURNAMENT | "+currentTicket:"FREE PRACTICE | 10 Qs";show();}
 function show(){if(index>=currentQuestions.length){winLevel();return;}if(float<=0||trust<=0){loseLevel();return;}let q=currentQuestions[index];answered=false;document.getElementById('qNum').innerText="QUESTION "+(index+1)+" / "+currentQuestions.length;document.getElementById('hardTag').innerText="VERY EASY | 8s";document.getElementById('qText').innerText=q.q;let msgEl=document.getElementById('qMsg');if(q.msg){msgEl.style.display='block';msgEl.innerText=q.msg;}else{msgEl.style.display='none';}document.getElementById('cust').innerText=(index+1)+" / "+currentQuestions.length;document.getElementById('progBar').style.width=((index/currentQuestions.length)*100)+"%";document.getElementById('pressure').innerText="8 SECONDS";document.getElementById('float').innerText="KSh "+float.toLocaleString();document.getElementById('trust').innerText=trust+"%";let letters=["A","B","C","D"];let h="";q.opts.forEach((opt,i)=>{h+=`<button class="opt" onclick="answer(${i})"><b>${letters[i]}</b><span>${opt}</span></button>`;});document.getElementById('options').innerHTML=h;document.getElementById('result').innerText="";timeLeft=8;document.getElementById('timer').innerText=timeLeft+"s";clearInterval(timerInt);timerInt=setInterval(()=>{timeLeft--;document.getElementById('timer').innerText=timeLeft+"s";if(timeLeft<=0){clearInterval(timerInt);if(!answered){trust-=7;combo=0;updateHUD();document.getElementById('result').innerText="Too slow! -7% Trust | Correct was "+letters[q.correct];setTimeout(()=>{index++;show();},1200);}}},1000);}
 function updateHUD(){document.getElementById('float').innerText="KSh "+float.toLocaleString();document.getElementById('trust').innerText=trust+"%";document.getElementById('combo').innerText=combo;}
 function answer(choice){if(answered)return;answered=true;clearInterval(timerInt);let q=currentQuestions[index];let letters=["A","B","C","D"];let btns=document.querySelectorAll('.opt');btns.forEach(b=>b.disabled=true);if(choice===q.correct){let bonus=combo>=5?2:1;float+=100*bonus;trust=Math.min(100,trust+2);combo++;correctCount++;btns[choice].classList.add('correct');document.getElementById('result').innerText="Correct! +KSh "+(100*bonus)+" | "+q.explain;if(combo==5)document.getElementById('result').innerText+=" COMBO x2!";}else{trust-=15;combo=0;float-=50;btns[choice].classList.add('wrong');btns[q.correct].classList.add('correct');document.getElementById('result').innerText="Wrong! -15% Trust | Correct was "+letters[q.correct]+" | "+q.explain;}updateHUD();index++;setTimeout(show,1800);}
